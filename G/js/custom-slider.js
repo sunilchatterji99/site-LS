@@ -30,34 +30,34 @@ $(function() {
     });
 
 
-    $('#carousel .slides li').click(function() {
+    $('#carousel .slides li').on('click touchstart', function() {
         $('.yt-play').each(function() {
             this.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
             resetUrl();
         });
     });
 
-    $('.play-btn').on('click', function(ev) {
+    $('.play-btn').on('click touchstart', function(ev) {
         $('#carousel').flexslider('pause');
         $('#slider').flexslider('pause');
         $(this).siblings('.video-overlay').show();
 
 
-
-        var index = parseInt($(this).data('rel'));
-        $(".yt-play")[index].contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
-        ev.preventDefault();
-        
         $('.yt-play').each(function() {
             this.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*')
         });
-    });
-});
 
-function resetUrl() {
-    $('#iframe1').attr('src', $('#iframe1').attr('src'));
-    $('#iframe2').attr('src', $('#iframe2').attr('src'));
-    $('#iframe3').attr('src', $('#iframe3').attr('src'));
-    $('#iframe4').attr('src', $('#iframe4').attr('src'));
-    $('#iframe5').attr('src', $('#iframe5').attr('src'));
-}
+        var index = parseInt($(this).data('rel'));
+        $(".yt-play")[index].contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
+        $(".yt-play").contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
+        ev.preventDefault();        
+    });
+    
+    function resetUrl() {
+        $('#iframe1').attr('src', $('#iframe1').attr('src'));
+        $('#iframe2').attr('src', $('#iframe2').attr('src'));
+        $('#iframe3').attr('src', $('#iframe3').attr('src'));
+        $('#iframe4').attr('src', $('#iframe4').attr('src'));
+        $('#iframe5').attr('src', $('#iframe5').attr('src'));
+    }
+});
